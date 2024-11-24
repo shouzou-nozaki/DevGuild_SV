@@ -1,7 +1,8 @@
 package com.example.devguild_sv.controller;
 
+import com.example.devguild_sv.dao.ProjectInfoDAO;
 import com.example.devguild_sv.model.ProjectInfo;
-import com.example.devguild_sv.service.ProjectService;
+//import com.example.devguild_sv.service.ProjectService;
 
 import java.util.List;
 
@@ -12,39 +13,40 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
     @Autowired
-    private ProjectService projectService;
+    private ProjectInfoDAO projectInfoDAO;
 
     // プロジェクト一覧取得用エンドポイント
-    @GetMapping
+    @RequestMapping("/api")
     public ResponseEntity<List<ProjectInfo>> getAllProjects() {
         try {
-        	System.out.print("プロジェクト取得を開始します。");
-            List<ProjectInfo> projects = projectService.getAllProjects();
+        	// 全プロジェクト情報の取得
+        	List<ProjectInfo> projectInfoList = projectInfoDAO.getAllProjectInfo();
+        	
+            // フロントに返却
+            return new ResponseEntity<>(projectInfoList, HttpStatus.OK);
             
-        	System.out.print("プロジェクト取得を終了します。");
-            return new ResponseEntity<>(projects, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    // プロジェクト登録用エンドポイント
     @PostMapping("/create")
+    /**
+     * プロジェクト登録用エンドポイント
+     * @param projectInfo 登録プロジェクト情報
+     * @return　
+     */
     public ResponseEntity<ProjectInfo> createProject(@RequestBody ProjectInfo projectInfo) {
         try {
-        	System.out.print("プロジェクト登録を開始します。");
-        	// プロジェクト情報の保存処理
-            ProjectInfo savedProject = projectService.saveProject(projectInfo);
-            
-            System.out.print("プロジェック登録を終了します。");
-            
+        	// プロジェクト情報の保存
+        	projectInfoDAO.saveProject(projectInfo);
+        	
             // フロントに返却
-            return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
             
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

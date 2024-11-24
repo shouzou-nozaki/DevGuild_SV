@@ -1,76 +1,83 @@
 package com.example.devguild_sv.model;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "projectInfo")
+@Table(name = "projectinfo")
 public class ProjectInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long ProjectId;
 
     // プロジェクト名
-    @Column(nullable = false)
-    private String ProjectName;       
+    @Column(name = "project_name", nullable = false)
+    private String ProjectName;
 
     // 募集人数
-    @Column(nullable = false)
+    @Column(name = "recruite_number", nullable = false)
     private int RecruiteNumber;
 
     // 期限日
-    @Column(nullable = false)
+    @Column(name = "duedate", nullable = false)
     private LocalDate DueDate;
 
     // 説明
-    @Column(length = 1000)
+    @Column(name = "description", length = 1000)
     private String Description;
 
-    // ID取得
-    public Long getId() {
-        return Id;
-    }
+    // 求めるスキル（JSON形式で保存）
+    @Column(name = "requirements", columnDefinition = "json")
+    private List<String> Requirements;
 
-    // IDセット
-    public void setId(Long id) {
-        this.Id = id;
+    // プロジェクトID
+    public Long getProjectId() {
+        return ProjectId;
     }
-
-    // プロジェクト名取得
-    public String getName() {
+    // プロジェクト名
+    public String getProjectName() {
         return ProjectName;
     }
-
-    // プロジェクト名セット 
-    public void setName(String projectName) {
-        this.ProjectName = projectName;
-    }
-    
-    // 募集人数取得
+    // 募集人数
     public int getRecruiteNumber() {
         return RecruiteNumber;
     }
-    // 募集人数セット
-    public void setRecruiteNumber(int recruiteNumber) {
-        this.RecruiteNumber = recruiteNumber;
-    }
-    
-    // 期限日取得
+    // 期限日
     public LocalDate getDueDate() {
         return DueDate;
     }
-    
-    // 期限日セット
-    public void setDueDate(LocalDate dueDate) {
-        this.DueDate = dueDate;
-    }
-
-    // 説明取得
+    // 説明
     public String getDescription() {
         return Description;
     }
-    
-    // 説明セット
+    // 求めるスキル
+    public List<String> getRequirements() {
+        return Requirements;
+    }
+
+    // プロジェクトID
+    public void setProjectId(Long projectId) {
+        this.ProjectId = projectId;
+    }
+    // プロジェクト名
+    public void setProjectName(String projectName) {
+        this.ProjectName = projectName;
+    }
+    // 募集人数
+    public void setRecruiteNumber(int recruiteNumber) {
+        this.RecruiteNumber = recruiteNumber;
+    }
+    // 期限日
+    public void setDueDate(LocalDate dueDate) {
+        this.DueDate = dueDate;
+    }
+    // 説明
     public void setDescription(String description) {
         this.Description = description;
+    }
+    // 求めるスキル
+    public void setRequirements(List<String> requirements) {
+        this.Requirements = requirements;
     }
 }
