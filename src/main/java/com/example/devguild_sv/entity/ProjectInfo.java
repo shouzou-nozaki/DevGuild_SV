@@ -1,4 +1,4 @@
-package com.example.devguild_sv.model;
+package com.example.devguild_sv.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

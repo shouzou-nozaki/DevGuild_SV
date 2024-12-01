@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.devguild_sv.entity.ProjectInfo;
 import com.example.devguild_sv.mapper.ProjectRowMapper;
-import com.example.devguild_sv.model.ProjectInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
@@ -37,7 +37,6 @@ public class ProjectInfoDAO {
 
 	/**
 	 * プロジェクト情報の保存
-	 * 
 	 * @param projectInfo 保存プロジェクト情報
 	 */
 	public void saveProject(ProjectInfo projectInfo) {

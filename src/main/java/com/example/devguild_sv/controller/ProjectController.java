@@ -1,8 +1,7 @@
 package com.example.devguild_sv.controller;
 
 import com.example.devguild_sv.dao.ProjectInfoDAO;
-import com.example.devguild_sv.model.ProjectInfo;
-//import com.example.devguild_sv.service.ProjectService;
+import com.example.devguild_sv.entity.ProjectInfo;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class ProjectController {
     private ProjectInfoDAO projectInfoDAO;
 
     // プロジェクト一覧取得用エンドポイント
-    @RequestMapping("/api")
+    @RequestMapping("/project/search")
     public ResponseEntity<List<ProjectInfo>> getAllProjects() {
         try {
         	// 全プロジェクト情報の取得
@@ -34,7 +33,7 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping("/project/create")
     /**
      * プロジェクト登録用エンドポイント
      * @param projectInfo 登録プロジェクト情報
