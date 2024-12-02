@@ -20,7 +20,7 @@ public class ProjectInfoDAO {
 	 * 全プロジェクト情報取得
 	 * @return プロジェクト情報リスト
 	 */
-	public List<ProjectInfo> getAllProjectInfo() {
+	public List<ProjectInfo> selectAllProject() {
 		// SQL作成
         String sql = "SELECT "
                    + " project_id, "
@@ -39,7 +39,7 @@ public class ProjectInfoDAO {
 	 * プロジェクト情報の保存
 	 * @param projectInfo 保存プロジェクト情報
 	 */
-	public void saveProject(ProjectInfo projectInfo) {
+	public void insertProject(ProjectInfo projectInfo) {
 		// SQL作成
 		String sql = "INSERT INTO projectinfo " 
 				+ " ( " 
