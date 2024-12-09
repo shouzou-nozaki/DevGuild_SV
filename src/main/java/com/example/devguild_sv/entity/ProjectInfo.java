@@ -2,6 +2,7 @@ package com.example.devguild_sv.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,6 +12,10 @@ public class ProjectInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ProjectId;
 
+    // 作成ユーザー
+    @Column(name = "create_user", nullable = false)
+    private String UserId;
+    
     // プロジェクト名
     @Column(name = "project_name", nullable = false)
     private String ProjectName;
@@ -31,9 +36,19 @@ public class ProjectInfo {
     @Column(name = "requirements", columnDefinition = "json")
     private List<String> Requirements;
 
+    // 参画ユーザー
+    @Column(name = "joining_user", columnDefinition = "json")
+    private ArrayList<String> JoiningUsers;
+
+    
     // プロジェクトID
     public Long getProjectId() {
         return ProjectId;
+    }
+    
+    // ユーザーID
+    public String getUserId() {
+    	return UserId;
     }
     // プロジェクト名
     public String getProjectName() {
@@ -55,11 +70,29 @@ public class ProjectInfo {
     public List<String> getRequirements() {
         return Requirements;
     }
+    
+    // 作成ユーザー
+    public String getCreateUser() {
+    	return UserId;
+    }
+    
+    // 参画ユーザー
+    public ArrayList<String> getJoiningUser() {
+    	return JoiningUsers;
+    }
 
+    
+    
     // プロジェクトID
     public void setProjectId(Long projectId) {
         this.ProjectId = projectId;
     }
+    
+    // ユーザーID
+    public void setUserId(String userId) {
+    	this.UserId = userId;
+    }
+    
     // プロジェクト名
     public void setProjectName(String projectName) {
         this.ProjectName = projectName;
@@ -80,4 +113,5 @@ public class ProjectInfo {
     public void setRequirements(List<String> requirements) {
         this.Requirements = requirements;
     }
+    
 }
