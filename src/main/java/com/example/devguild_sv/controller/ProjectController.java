@@ -93,7 +93,6 @@ public class ProjectController {
 	
 	/**
 	 * プロジェクト変更用エンドポイント
-	 * 
 	 * @param projectInfo 登録プロジェクト情報
 	 * @return
 	 */
@@ -111,13 +110,31 @@ public class ProjectController {
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	/**
+	 * プロジェクト変更用エンドポイント
+	 * @param projectInfo 登録プロジェクト情報
+	 * @return
+	 */
+	@PostMapping("/project/delete")
+	public void deleteProject(@RequestBody Map<String, Object> body) {
+		try {
+			outputHttpLog(body, "Delete");
+			// パラメータ取得
+			String projectId =  body.get("param").toString();
+			
+			// プロジェクト情報の保存
+			projectInfoService.deleteProject(projectId);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
 	/**
 	 * HTTPログ出力処理
-	 * 
 	 * @param body リクエストbody
 	 */
 	private static void outputHttpLog(Map<String, Object> body, String endPoint) {

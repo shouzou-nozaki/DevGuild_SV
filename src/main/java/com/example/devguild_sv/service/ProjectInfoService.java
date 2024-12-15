@@ -47,5 +47,12 @@ public class ProjectInfoService {
 		projectInfoDAO.updateProject(projectInfo);
 	}
 	
+	/**
+	 * プロジェクト更新処理
+	 * @param projectId
+	 */
+	public void deleteProject(String projectId) {
+		projectInfoDAO.deleteProject(projectId);
+	}
 
 }

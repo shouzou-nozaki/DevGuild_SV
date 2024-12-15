@@ -24,6 +24,7 @@ public class ProjectInfoDAO {
 
 	/**
 	 * 全プロジェクト情報取得
+	 * 
 	 * @return プロジェクト情報リスト
 	 */
 	public List<ProjectInfo> selectAllProject() {
@@ -47,6 +48,7 @@ public class ProjectInfoDAO {
 
 	/**
 	 * プロジェクト取得処理
+	 * 
 	 * @param cond 検索条件
 	 * @return プロジェクト情報
 	 */
@@ -82,6 +84,7 @@ public class ProjectInfoDAO {
 
 	/**
 	 * プロジェクト情報の保存
+	 * 
 	 * @param projectInfo 保存プロジェクト情報
 	 */
 	public void insertProject(ProjectInfo projectInfo) {
@@ -97,12 +100,11 @@ public class ProjectInfoDAO {
 		sb.append(") VALUES (?, ?, ?, ?, ?, CAST(? AS JSON))");
 
 		// SQL発行
-		jdbcTemplate.update(sb.toString(),
-				projectInfo.getUserId(),              // ユーザーID
-				projectInfo.getProjectName(),         // プロジェクト名
-				projectInfo.getRecruiteNumber(),      // 募集人数
-				projectInfo.getDueDate(),             // 期限日
-				projectInfo.getDescription(),         // 説明
+		jdbcTemplate.update(sb.toString(), projectInfo.getUserId(), // ユーザーID
+				projectInfo.getProjectName(), // プロジェクト名
+				projectInfo.getRecruiteNumber(), // 募集人数
+				projectInfo.getDueDate(), // 期限日
+				projectInfo.getDescription(), // 説明
 				toJson(projectInfo.getRequirements()) // 求めるスキル
 		);
 	}
@@ -117,24 +119,35 @@ public class ProjectInfoDAO {
 		sb.append("    description = ?, ");
 		sb.append("    requirements = CAST(? AS JSON) ");
 		sb.append("WHERE project_id = ?");
-		
+
 		System.out.println("SQL：" + sb.toString());
 		System.out.println("パラメータ：" + projectInfo.getProjectName().toString());
 		System.out.println("パラメータ：" + projectInfo.getRecruiteNumber().toString());
 		System.out.println("パラメータ：" + projectInfo.getDueDate().toString());
 		System.out.println("パラメータ：" + toJson(projectInfo.getRequirements()));
 		System.out.println("パラメータ：" + projectInfo.getProjectId());
-		
-		
+
 		// SQL発行
-		jdbcTemplate.update(sb.toString(),
-				projectInfo.getProjectName(),          // プロジェクト名
-				projectInfo.getRecruiteNumber(),       // 募集人数
-				projectInfo.getDueDate(),              // 期限日
-				projectInfo.getDescription(),          // 説明
+		jdbcTemplate.update(sb.toString(), projectInfo.getProjectName(), // プロジェクト名
+				projectInfo.getRecruiteNumber(), // 募集人数
+				projectInfo.getDueDate(), // 期限日
+				projectInfo.getDescription(), // 説明
 				toJson(projectInfo.getRequirements()), // 求めるスキル
-				projectInfo.getProjectId()             // ユーザーID
+				projectInfo.getProjectId() // ユーザーID
 		);
+	}
+
+	public void deleteProject(String projectId) {
+		// SQL作成
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM projectinfo ");
+		sb.append("WHERE project_id = ? ");
+
+		System.out.println("SQL：" + sb.toString());
+		System.out.println("パラメータ：" + Integer.parseInt(projectId));
+
+		// SQL発行
+		jdbcTemplate.update(sb.toString(), Integer.parseInt(projectId));
 	}
 
 	/**
