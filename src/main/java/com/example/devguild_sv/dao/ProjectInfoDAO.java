@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import com.example.devguild_sv.dto.UserInfoDTO;
 import com.example.devguild_sv.entity.ProjectInfo;
-import com.example.devguild_sv.mapper.ProjectRowMapper;
+import com.example.devguild_sv.mapper.ProjectInfoMapper;
 import com.example.devguild_sv.mapper.UserInfoRowMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,28 +28,32 @@ public class ProjectInfoDAO {
 	 */
 	public List<ProjectInfo> selectAllProject() {
 		// SQL作成
-        String sql = "SELECT "
-                   + " project_id, "
-                   + " project_name, "
-                   + " recruite_number, "
-                   + " duedate, "
-                   + " description, "
-                   + " requirements "
-                   + "FROM projectinfo";
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT ");
+		sb.append("    project_id, ");
+		sb.append("    project_name, ");
+		sb.append("    recruite_number, ");
+		sb.append("    duedate, ");
+		sb.append("    duedate, ");
+		sb.append("    description, ");
+		sb.append("    requirements ");
+		sb.append("FROM projectinfo ");
 
-        // SQL発行と結果マッピング
-        return jdbcTemplate.query(sql,new ProjectRowMapper());
+		System.out.println("SQL：" + sb.toString());
+
+		// SQL発行と結果マッピング
+		return jdbcTemplate.query(sb.toString(), new ProjectInfoMapper());
 	}
-	
+
 	/**
 	 * プロジェクト取得処理
 	 * @param cond 検索条件
 	 * @return プロジェクト情報
 	 */
-	public List<ProjectInfo> selectAllProject(Map<String, Object> cond) {
+	public List<ProjectInfo> selectAllProjectByUserId(Map<String, Object> cond) {
 		// 戻り値
 		List<ProjectInfo> response = new ArrayList<ProjectInfo>();
-		
+
 		try {
 			// SQL作成
 			StringBuilder sb = new StringBuilder();
@@ -61,19 +66,14 @@ public class ProjectInfoDAO {
 			sb.append("    description, ");
 			sb.append("    requirements ");
 			sb.append("FROM projectinfo ");
-			sb.append("WHERE ");
-			sb.append("    create_user = ? ");
-			
-			// パラメータ取得
-			String param1 = (String) cond.get("UserId"); // ユーザーID
-			
-			System.out.println(sb.toString());
-			System.out.println(param1);
-			
+			sb.append("WHERE user_id = ? ");
+
+			System.out.println("SQL：" + sb.toString());
+			System.out.println("パラメータ：" + (String) cond.get("UserId"));
+
 			// SQL発行と結果マッピング
-			response =  jdbcTemplate.query(sb.toString(), new ProjectRowMapper(), param1);
-			
-			
+			response = jdbcTemplate.query(sb.toString(), new ProjectInfoMapper(), (String) cond.get("UserId"));
+
 		} catch (Exception e) {
 			System.out.println("エラーが発生しました。" + e.getMessage());
 		}
@@ -86,23 +86,54 @@ public class ProjectInfoDAO {
 	 */
 	public void insertProject(ProjectInfo projectInfo) {
 		// SQL作成
-		String sql = "INSERT INTO projectinfo " 
-				+ " ( " 
-				+ " project_name, " 
-				+ " recruite_number, " 
-				+ " duedate, "
-				+ " description, " 
-				+ " requirements " 
-				+ " ) " 
-				+ " VALUES (?, ?, ?, ?, CAST(? AS JSON))";
+		StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO projectinfo (");
+		sb.append("    user_id, ");
+		sb.append("    project_name, ");
+		sb.append("    recruite_number, ");
+		sb.append("    duedate, ");
+		sb.append("    description, ");
+		sb.append("    requirements ");
+		sb.append(") VALUES (?, ?, ?, ?, ?, CAST(? AS JSON))");
 
 		// SQL発行
-		jdbcTemplate.update(sql, 
+		jdbcTemplate.update(sb.toString(),
+				projectInfo.getUserId(),              // ユーザーID
 				projectInfo.getProjectName(),         // プロジェクト名
 				projectInfo.getRecruiteNumber(),      // 募集人数
 				projectInfo.getDueDate(),             // 期限日
 				projectInfo.getDescription(),         // 説明
 				toJson(projectInfo.getRequirements()) // 求めるスキル
+		);
+	}
+
+	public void updateProject(ProjectInfo projectInfo) {
+		// SQL作成
+		StringBuilder sb = new StringBuilder();
+		sb.append("UPDATE projectinfo SET ");
+		sb.append("    project_name = ?, ");
+		sb.append("    recruite_number = ?, ");
+		sb.append("    duedate = ?, ");
+		sb.append("    description = ?, ");
+		sb.append("    requirements = CAST(? AS JSON) ");
+		sb.append("WHERE project_id = ?");
+		
+		System.out.println("SQL：" + sb.toString());
+		System.out.println("パラメータ：" + projectInfo.getProjectName().toString());
+		System.out.println("パラメータ：" + projectInfo.getRecruiteNumber().toString());
+		System.out.println("パラメータ：" + projectInfo.getDueDate().toString());
+		System.out.println("パラメータ：" + toJson(projectInfo.getRequirements()));
+		System.out.println("パラメータ：" + projectInfo.getProjectId());
+		
+		
+		// SQL発行
+		jdbcTemplate.update(sb.toString(),
+				projectInfo.getProjectName(),          // プロジェクト名
+				projectInfo.getRecruiteNumber(),       // 募集人数
+				projectInfo.getDueDate(),              // 期限日
+				projectInfo.getDescription(),          // 説明
+				toJson(projectInfo.getRequirements()), // 求めるスキル
+				projectInfo.getProjectId()             // ユーザーID
 		);
 	}
 

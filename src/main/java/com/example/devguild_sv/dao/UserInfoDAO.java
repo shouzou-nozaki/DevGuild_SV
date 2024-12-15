@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.example.devguild_sv.dto.UserInfoDTO;
 import com.example.devguild_sv.entity.ProjectInfo;
 import com.example.devguild_sv.entity.UserInfo;
-import com.example.devguild_sv.mapper.ProjectRowMapper;
+import com.example.devguild_sv.mapper.ProjectInfoMapper;
 import com.example.devguild_sv.mapper.UserInfoRowMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

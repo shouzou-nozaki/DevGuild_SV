@@ -16,7 +16,7 @@ public class ProjectInfoService {
 	private ProjectInfoDAO projectInfoDAO;
 	
 	/**
-	 * プロジェクトリストの取得
+	 * プロジェクト取得処理
 	 * @return 全プロジェクト情報
 	 */
 	public List<ProjectInfo> getProject(){
@@ -29,14 +29,22 @@ public class ProjectInfoService {
 	 * @return プロジェクトリスト
 	 */
 	public List<ProjectInfo> getProject(Map<String, Object> cond) {
-		return projectInfoDAO.selectAllProject(cond);
+		return projectInfoDAO.selectAllProjectByUserId(cond);
 	}
 	
 	/**
-	 * プロジェクトの登録
+	 * プロジェクト登録処理
 	 */
 	public void regProject(ProjectInfo projectInfo) {
 		projectInfoDAO.insertProject(projectInfo);
+	}
+	
+	/**
+	 * プロジェクト更新処理
+	 * @param param
+	 */
+	public void updateProject(ProjectInfo projectInfo) {
+		projectInfoDAO.updateProject(projectInfo);
 	}
 	
 
