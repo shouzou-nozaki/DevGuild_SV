@@ -2,6 +2,8 @@ package com.example.devguild_sv.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,18 +17,22 @@ public class UserInfo {
 	// ユーザーID
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("UserId")
 	private long UserId;
 	
 	// ユーザー名
 	@Column(name = "user_name", nullable = false)
+    @JsonProperty("Name")
 	public String UserName;
 
 	// メールアドレス
 	@Column(name = "email", nullable = false)
+    @JsonProperty("Email")
 	public String Email;
 	
 	// パスワード
 	@Column(name = "password", nullable = false)
+    @JsonProperty("Password")
 	public String Password;
 	
 //	
