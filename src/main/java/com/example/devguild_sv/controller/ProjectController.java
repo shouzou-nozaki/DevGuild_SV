@@ -80,9 +80,9 @@ public class ProjectController {
 			// キー情報ログ出力
 			outputHttpLog(body, "MyProject");
 			// パラメータ取得
-			Map<String, Object> searchCond = (Map<String, Object>) body.get("param");
+			String userid = (String) body.get("param");
 
-			List<ProjectInfo> response = projectInfoService.getProject(searchCond);
+			List<ProjectInfo> response = projectInfoService.getProject(userid);
 
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {

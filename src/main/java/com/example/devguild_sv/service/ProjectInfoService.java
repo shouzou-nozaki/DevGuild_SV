@@ -25,11 +25,11 @@ public class ProjectInfoService {
 	
 	/**
 	 * プロジェクト検索処理
-	 * @param cond 検索条件
+	 * @param userid
 	 * @return プロジェクトリスト
 	 */
-	public List<ProjectInfo> getProject(Map<String, Object> cond) {
-		return projectInfoDAO.selectAllProjectByUserId(cond);
+	public List<ProjectInfo> getProject(String userid) {
+		return projectInfoDAO.selectAllProjectByUserId(userid);
 	}
 	
 	/**

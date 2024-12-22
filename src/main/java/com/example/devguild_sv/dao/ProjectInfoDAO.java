@@ -52,7 +52,7 @@ public class ProjectInfoDAO {
 	 * @param cond 検索条件
 	 * @return プロジェクト情報
 	 */
-	public List<ProjectInfo> selectAllProjectByUserId(Map<String, Object> cond) {
+	public List<ProjectInfo> selectAllProjectByUserId(String userid) {
 		// 戻り値
 		List<ProjectInfo> response = new ArrayList<ProjectInfo>();
 
@@ -71,10 +71,9 @@ public class ProjectInfoDAO {
 			sb.append("WHERE user_id = ? ");
 
 			System.out.println("SQL：" + sb.toString());
-			System.out.println("パラメータ：" + (String) cond.get("UserId"));
 
 			// SQL発行と結果マッピング
-			response = jdbcTemplate.query(sb.toString(), new ProjectInfoMapper(), (String) cond.get("UserId"));
+			response = jdbcTemplate.query(sb.toString(), new ProjectInfoMapper(), userid);
 
 		} catch (Exception e) {
 			System.out.println("エラーが発生しました。" + e.getMessage());
